@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.hazal.myagenda.DatabaseAndClasses.Database;
+import com.example.hazal.myagenda.DatabaseAndClasses.User;
 import com.example.hazal.myagenda.Fragments.AddItemFragment;
 import com.example.hazal.myagenda.Fragments.CardViewFragment;
 import com.example.hazal.myagenda.Fragments.HelpFragment;
@@ -42,10 +44,13 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+        Database db = new Database(getApplicationContext());
+        User user = new User();
+
         //How to change elements in the header programatically
         View headerView = navigationView.getHeaderView(0);
         TextView emailText = (TextView) headerView.findViewById(R.id.email);
-        emailText.setText("newemail@argisto.com");
+        emailText.setText(getIntent().getStringExtra("email"));
         navigationView.setNavigationItemSelectedListener(this);
 
 

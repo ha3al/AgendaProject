@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Giriş başarılı!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("email",user.getEmail());
                         startActivity(intent);
                     }
                 } catch (Exception e) {

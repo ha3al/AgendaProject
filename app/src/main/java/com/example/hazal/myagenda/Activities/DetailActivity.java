@@ -44,7 +44,14 @@ public class DetailActivity extends AppCompatActivity {
         email.setText(note.getEmail());
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.edit);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailActivity.this, id, Toast.LENGTH_SHORT).show();
+            }
+        });
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.trash);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

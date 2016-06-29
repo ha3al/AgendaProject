@@ -54,7 +54,7 @@
     <TextView
         android:id="@+id/exist"
         android:text="or create account:"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/btn_login"
         android:layout_width="wrap_content"

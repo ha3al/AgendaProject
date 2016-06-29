@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.commit();
 
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.putExtra("email",user.getEmail());
                     startActivity(intent);
                 } else {
                     Toast.makeText(RegisterActivity.this, "Şifreler eşleşmiyor!", Toast.LENGTH_SHORT).show();
