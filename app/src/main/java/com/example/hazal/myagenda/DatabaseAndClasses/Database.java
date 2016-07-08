@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,8 +16,7 @@ import java.util.Locale;
 //import java.sql.SimpleDateFormat;
 
 /**
- * Author : l50 - Özcan YARIMDÜNYA (@ozcaan11)
- * Date   : 23.06.2016 - 12:15
+ * Created by ha3al on 6/25/16.
  */
 
 public class Database extends SQLiteOpenHelper {
@@ -213,5 +213,4 @@ public class Database extends SQLiteOpenHelper {
         cursor.close();
         return user;
     }
-
 }

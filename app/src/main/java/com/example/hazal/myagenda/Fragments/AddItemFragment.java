@@ -58,7 +58,6 @@ public class AddItemFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-
                     Database database = new Database(getContext());
                     Note note = new Note();
                     note.setTitle(title.getText().toString());

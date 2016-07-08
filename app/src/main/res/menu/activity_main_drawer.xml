@@ -10,26 +10,18 @@
             android:id="@+id/nav_add_item"
             android:icon="@drawable/add"
             android:title="Add item" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-        <item
-            android:id="@+id/nav_help"
-            android:icon="@drawable/help"
-            android:title="Help" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Tools" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_help"
+                android:icon="@drawable/help"
+                android:title="Help" />
         </menu>
     </item>
 

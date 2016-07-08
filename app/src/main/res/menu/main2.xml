@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/detail_edit"
+        android:orderInCategory="100"
+        android:title="@string/detail_edit"
+        android:icon="@drawable/edit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/detail_trash"
+        android:orderInCategory="100"
+        android:title="@string/detail_trash"
+        android:icon="@drawable/trash"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/call"
+        android:orderInCategory="100"
+        android:icon="@drawable/call"
+        android:title="@string/detail_call"
+        app:showAsAction="collapseActionView|ifRoom" />
+
+    <item
+        android:id="@+id/send"
+        android:orderInCategory="100"
+        android:icon="@drawable/mail"
+        android:title="@string/detail_send"
+        app:showAsAction="collapseActionView|ifRoom" />
+</menu>

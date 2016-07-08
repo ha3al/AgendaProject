@@ -31,23 +31,7 @@ Button cikis;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_help, container, false);
-        cikis = (Button) view.findViewById(R.id.btn_cikis);
-        cikis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.remove("session");
-                editor.commit();
-                Toast.makeText(getContext(), "Çıkış başarılı!!", Toast.LENGTH_SHORT).show();
-
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
-
-
-        return view;
+        return inflater.inflate(R.layout.fragment_help, container, false);
     }
 
 }

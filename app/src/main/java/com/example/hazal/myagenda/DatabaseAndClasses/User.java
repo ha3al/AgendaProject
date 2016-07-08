@@ -1,8 +1,7 @@
 package com.example.hazal.myagenda.DatabaseAndClasses;
 
 /**
- * Author : l50 - Özcan YARIMDÜNYA (@ozcaan11)
- * Date   : 23.06.2016 - 12:11
+ * Created by ha3al on 6/25/16.
  */
 
 public class User {
