@@ -8,4 +8,7 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
+    <color name="red">#ff4d4d</color>
+    <color name="green">#70db70</color>
+    <color name="blue">#4d94ff</color>
 </resources>

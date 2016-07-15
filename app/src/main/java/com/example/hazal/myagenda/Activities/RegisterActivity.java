@@ -43,11 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                     db.registerUser(user);
 
-                    /**
-                     * Shared Preferences burda devreye girecek
-                     *
-                     * */
-
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("session", "YES");
@@ -57,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                     intent.putExtra("email",user.getEmail());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Şifreler eşleşmiyor!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Password does not match the confirm password!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

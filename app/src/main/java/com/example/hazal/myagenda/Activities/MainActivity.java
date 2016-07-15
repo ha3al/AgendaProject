@@ -99,26 +99,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+       // if (id == R.id.action_settings) {
+           // return true;
+        //}
 
-        else if (id == R.id.action_exit) {
+       if (id == R.id.action_exit) {
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
             SharedPreferences.Editor editor = preferences.edit();
             editor.remove("session");
             editor.commit();
-            Toast.makeText(MainActivity.this, "Çıkış başarılı!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "logged out successfully!!", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             return true;
         }
 
-        else if (id == R.id.action_search) {
-            return true;
-        }
-        else if (id == R.id.action_add) {
+       // else if (id == R.id.action_search) {
+            //return true;
+       // }
+        if (id == R.id.action_add) {
             AddItemFragment fragment = new AddItemFragment();
             FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();

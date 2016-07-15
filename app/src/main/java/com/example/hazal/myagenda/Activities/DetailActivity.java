@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -99,19 +101,39 @@ public class DetailActivity extends AppCompatActivity {
         }
             else if (id == R.id.detail_trash) {
                 try {
-                    String ID = "";
-                    ID = getIntent().getStringExtra("noteID");
-                    Database database = new Database(getApplicationContext());
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailActivity.this);
+                    // Setting Dialog Title
+                    alertDialog.setTitle("Warning...");
+                    // Setting Dialog Message
+                    alertDialog.setMessage("Are you sure to trash item?");
+                    // Setting Positive "Yes" Button
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int which) {
 
-                    Note note = database.getSingleNoteDetailById(Integer.parseInt(ID));
-                    database.deleteNote(note);
+                            String ID = "";
+                            ID = getIntent().getStringExtra("noteID");
+                            Database database = new Database(getApplicationContext());
 
-                    Toast.makeText(DetailActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
-                    finish();
+                            Note note = database.getSingleNoteDetailById(Integer.parseInt(ID));
+                            database.deleteNote(note);
 
-                    Intent intent= new Intent(this,MainActivity.class);
-                    startActivity(intent);
+                            Toast.makeText(DetailActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
+                            finish();
 
+                            Intent intent= new Intent(DetailActivity.this,MainActivity.class);
+                            startActivity(intent);
+
+                        }
+                    });
+                    // Setting Negative "NO" Button
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to invoke NO event
+                            dialog.cancel();
+                        }
+                    });
+                    // Showing Alert Message
+                    alertDialog.show();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -142,12 +164,8 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Intent i = new Intent(DetailActivity.this, MainActivity.class);
+        startActivity(i);
     }
 
 }

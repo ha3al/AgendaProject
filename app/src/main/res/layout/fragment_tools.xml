@@ -4,25 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ToolsFragment">
 
-    <TextView
-        android:id="@+id/help"
-        android:layout_margin="40dp"
-        android:padding="40dp"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:text="TOOL PAGE"
+    <ListView
+        android:id="@+id/tool"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/help2"
-        android:layout_margin="40dp"
-        android:layout_below="@+id/help"
-        android:padding="40dp"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:text="TOOL PAGE"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+    </ListView>
 
 </RelativeLayout>

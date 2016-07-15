@@ -24,10 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /**
-         * Look for SharedPreferences
-         * */
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String Session = preferences.getString("session","N/A");
         if (Session.equals(String.valueOf("YES"))){
@@ -55,24 +51,20 @@ public class LoginActivity extends AppCompatActivity {
                     Database db = new Database(getApplicationContext());
                     User user = db.getUserDetail(username.getText().toString(), password.getText().toString());
                     if (user != null) {
-                        /**
-                         * Shared Preferences burda başlayacak
-                         *
-                         * */
 
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("session","YES");
                         editor.commit();
 
-                        Toast.makeText(LoginActivity.this, "Giriş başarılı!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Logged in successfully!!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("email",user.getEmail());
                         startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Toast.makeText(LoginActivity.this, "Yanlış bilgi girdiniz!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

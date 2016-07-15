@@ -36,7 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.hazal.myagenda.Activities.MainActivity" />
         </activity>
-        <activity android:name=".Activities.EditActivity" />
         <activity android:name=".Activities.EditNoteActivity"></activity>
     </application>
 
