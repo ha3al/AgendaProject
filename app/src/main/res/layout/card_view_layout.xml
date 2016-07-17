@@ -16,7 +16,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         card_view:cardCornerRadius="5dp"
-        card_view:cardBackgroundColor="#caca">
+        card_view:cardBackgroundColor="#FFA500">
 
         <RelativeLayout
             android:layout_width="match_parent"

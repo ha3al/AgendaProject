@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:elevation="100dp"
         android:layout_marginTop="40dp"
-        card_view:cardBackgroundColor="#caca">
+        card_view:cardBackgroundColor="#FFA500">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/textView_detail_description"
-                android:background="#2851a4"/>
+                android:background="#000"/>
 
             <TextView
                 android:id="@+id/communication"
