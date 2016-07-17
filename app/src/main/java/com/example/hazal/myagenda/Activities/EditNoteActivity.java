@@ -38,10 +38,16 @@ public class EditNoteActivity extends AppCompatActivity {
         final Database database = new Database(getApplicationContext());
         final Note note = database.getSingleNoteDetailById(Integer.parseInt(ID));
 
-        title.setText(getIntent().getStringExtra("title"));
-        description.setText(getIntent().getStringExtra("description"));
-        number.setText(getIntent().getStringExtra("number"));
-        mail.setText(getIntent().getStringExtra("email"));
+        final String titleExtra = getIntent().getStringExtra("title");
+        final String descriptionExtra = getIntent().getStringExtra("description");
+        final String numberExtra = getIntent().getStringExtra("number");
+        final String emailExtra = getIntent().getStringExtra("email");
+
+
+        title.setText(titleExtra);
+        description.setText(descriptionExtra);
+        number.setText(numberExtra);
+        mail.setText(emailExtra);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,39 +72,88 @@ public class EditNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditNoteActivity.this);
-                // Setting Dialog Title
-                alertDialog.setTitle("Warning...");
-                // Setting Dialog Message
-                alertDialog.setMessage("Did you save changes?");
-                // Setting Positive "Yes" Button
-                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int which) {
+                if (String.valueOf(title.getText().toString()).equals(String.valueOf(titleExtra)) && String.valueOf(description.getText().toString()).equals(String.valueOf(descriptionExtra)) && String.valueOf(number.getText().toString()).equals(String.valueOf(numberExtra)) && String.valueOf(mail.getText().toString()).equals(String.valueOf(emailExtra))) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                } else {
 
-                        note.setTitle(title.getText().toString());
-                        note.setDescription(description.getText().toString());
-                        note.setContactNO(number.getText().toString());
-                        note.setEmail(mail.getText().toString());
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditNoteActivity.this);
+                    // Setting Dialog Title
+                    alertDialog.setTitle("Warning...");
+                    // Setting Dialog Message
+                    alertDialog.setMessage("Did you save changes?");
+                    // Setting Positive "Yes" Button
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        database.updateNote(note);
-                        Toast.makeText(getApplicationContext(), "Note Saved Successfully!", Toast.LENGTH_SHORT).show();
+                            note.setTitle(EditNoteActivity.this.title.getText().toString());
+                            note.setDescription(EditNoteActivity.this.description.getText().toString());
+                            note.setContactNO(EditNoteActivity.this.number.getText().toString());
+                            note.setEmail(mail.getText().toString());
 
-                        Intent intent = new Intent(EditNoteActivity.this,MainActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                // Setting Negative "NO" Button
-                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        dialog.cancel();
-                    }
-                });
-                // Showing Alert Message
-                alertDialog.show();
+                            database.updateNote(note);
+                            Toast.makeText(getApplicationContext(), "Note Saved Successfully!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(EditNoteActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
+                    });
+                    alertDialog.show();
+                }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
 
+        String ID = "";
+        ID = getIntent().getStringExtra("noteID");
+        final Database database = new Database(getApplicationContext());
+        final Note note = database.getSingleNoteDetailById(Integer.parseInt(ID));
+
+        final String titleExtra = getIntent().getStringExtra("title");
+        final String descriptionExtra = getIntent().getStringExtra("description");
+        final String numberExtra = getIntent().getStringExtra("number");
+        final String emailExtra = getIntent().getStringExtra("email");
+
+        if (String.valueOf(title.getText().toString()).equals(String.valueOf(titleExtra)) && String.valueOf(description.getText().toString()).equals(String.valueOf(descriptionExtra)) && String.valueOf(number.getText().toString()).equals(String.valueOf(numberExtra)) && String.valueOf(mail.getText().toString()).equals(String.valueOf(emailExtra))) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        } else {
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditNoteActivity.this);
+            // Setting Dialog Title
+            alertDialog.setTitle("Warning...");
+            // Setting Dialog Message
+            alertDialog.setMessage("Did you save changes?");
+            // Setting Positive "Yes" Button
+            alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    note.setTitle(EditNoteActivity.this.title.getText().toString());
+                    note.setDescription(EditNoteActivity.this.description.getText().toString());
+                    note.setContactNO(EditNoteActivity.this.number.getText().toString());
+                    note.setEmail(mail.getText().toString());
+
+                    database.updateNote(note);
+                    Toast.makeText(getApplicationContext(), "Note Saved Successfully!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(EditNoteActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
+            });
+            alertDialog.show();
+        }
 
     }
 }

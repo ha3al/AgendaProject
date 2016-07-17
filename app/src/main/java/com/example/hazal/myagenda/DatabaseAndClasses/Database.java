@@ -33,13 +33,15 @@ public class Database extends SQLiteOpenHelper {
     public static final String USER_EMAIL = "user_email";
     public static final String PASSWORD = "password";
 
-    // This columns for User Table
+    // This columns for Note Table
     public static final String NOTE_ID = "note_id";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String CONTACT_NO = "contact_no";
     public static final String NOTE_EMAIL = "note_email";
     public static final String CREATED_AT = "created_at";
+    public static final String X_LOC = "x_loc";
+    public static final String Y_LOC = "y_loc";
 
 
     public Database(Context context) {
@@ -55,7 +57,9 @@ public class Database extends SQLiteOpenHelper {
                 + DESCRIPTION + " TEXT, "
                 + CONTACT_NO + " TEXT, "
                 + NOTE_EMAIL + " TEXT, "
-                + CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
+                + CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                + X_LOC +" TEXT, "
+                + Y_LOC +" TEXT )";
 
         String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + " ("
                 + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -101,6 +105,8 @@ public class Database extends SQLiteOpenHelper {
         values.put(DESCRIPTION, note.getDescription());
         values.put(CONTACT_NO, note.getContactNO());
         values.put(NOTE_EMAIL, note.getEmail());
+        values.put(X_LOC,note.getxLoc());
+        values.put(Y_LOC,note.getyLoc());
 
         db.insert(TABLE_NOTE, null, values);
         db.close();
@@ -122,6 +128,8 @@ public class Database extends SQLiteOpenHelper {
         values.put(DESCRIPTION, note.getDescription());
         values.put(CONTACT_NO, note.getContactNO());
         values.put(NOTE_EMAIL, note.getEmail());
+        values.put(X_LOC,note.getxLoc());
+        values.put(Y_LOC,note.getyLoc());
 
         db.update(TABLE_NOTE, values, NOTE_ID + " = ?", new String[]{String.valueOf(note.getNoteID())});
         db.close();
@@ -136,7 +144,7 @@ public class Database extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Note note = new Note(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),formatDateTime(cursor.getString(5)));
+        Note note = new Note(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),formatDateTime(cursor.getString(5)),cursor.getString(6),cursor.getString(7));
 
         db.close();
         cursor.close();
@@ -157,6 +165,8 @@ public class Database extends SQLiteOpenHelper {
                 note.setContactNO(cursor.getString(3));
                 note.setEmail(cursor.getString(4));
                 note.setCreated_at(formatDateTime(cursor.getString(5)));
+                note.setxLoc(cursor.getString(6));
+                note.setyLoc(cursor.getString(7));
                 noteList.add(note);
 
             } while (cursor.moveToNext());

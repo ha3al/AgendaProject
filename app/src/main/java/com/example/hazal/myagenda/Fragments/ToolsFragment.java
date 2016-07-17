@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -28,8 +29,6 @@ import java.util.Arrays;
  * A simple {@link Fragment} subclass.
  */
 public class ToolsFragment extends Fragment {
-    ListView listView1;
-    //CardView cardview;
 
     public ToolsFragment() {
         // Required empty public constructor
@@ -45,7 +44,7 @@ public class ToolsFragment extends Fragment {
         String[] values = new String[] { "background color", "font size"};
         Integer[] imgid={R.drawable.color,R.drawable.font};
         ListView lv = (ListView)rootView.findViewById(R.id.tool);
-        //cardview = (CardView) rootView.findViewById(R.id.card_view);
+        //cardView = (CardView)rootView.findViewById(R.id.card_view);
 
         CustomListAdapter adapter=new CustomListAdapter(getActivity(), values, imgid);
 
@@ -65,8 +64,21 @@ public class ToolsFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // the user clicked on colors[which]
-                                //cardview.setCardBackgroundColor(Color.parseColor("#b70505"));
-                                Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                if(which == 0){
+                                    dialog.dismiss();
+                                   // cardView.setCardBackgroundColor(Color.RED);
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                else if(which == 1){
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                else{
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                         builder.show();

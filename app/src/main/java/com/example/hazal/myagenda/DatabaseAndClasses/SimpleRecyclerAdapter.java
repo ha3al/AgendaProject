@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.hazal.myagenda.Activities.DetailActivity;
 import com.example.hazal.myagenda.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
