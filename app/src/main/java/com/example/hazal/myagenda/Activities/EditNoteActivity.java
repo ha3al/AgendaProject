@@ -41,7 +41,7 @@ public class EditNoteActivity extends AppCompatActivity {
         final String titleExtra = getIntent().getStringExtra("title");
         final String descriptionExtra = getIntent().getStringExtra("description");
         final String numberExtra = getIntent().getStringExtra("number");
-        final String emailExtra = getIntent().getStringExtra("email");
+        final String emailExtra = getIntent().getStringExtra("mail");
 
 
         title.setText(titleExtra);
@@ -119,7 +119,7 @@ public class EditNoteActivity extends AppCompatActivity {
         final String titleExtra = getIntent().getStringExtra("title");
         final String descriptionExtra = getIntent().getStringExtra("description");
         final String numberExtra = getIntent().getStringExtra("number");
-        final String emailExtra = getIntent().getStringExtra("email");
+        final String emailExtra = getIntent().getStringExtra("mail");
 
         if (String.valueOf(title.getText().toString()).equals(String.valueOf(titleExtra)) && String.valueOf(description.getText().toString()).equals(String.valueOf(descriptionExtra)) && String.valueOf(number.getText().toString()).equals(String.valueOf(numberExtra)) && String.valueOf(mail.getText().toString()).equals(String.valueOf(emailExtra))) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -6,10 +6,13 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -28,13 +31,15 @@ import android.widget.Toast;
 
 import com.example.hazal.myagenda.DatabaseAndClasses.Database;
 import com.example.hazal.myagenda.DatabaseAndClasses.Note;
+import com.example.hazal.myagenda.DatabaseAndClasses.Settings;
+import com.example.hazal.myagenda.DatabaseAndClasses.User;
 import com.example.hazal.myagenda.Fragments.AddItemFragment;
 import com.example.hazal.myagenda.R;
 
 public class DetailActivity extends AppCompatActivity {
     String id = "";
 
-    TextView date,title,desc,contact,email;
+    TextView date,title,desc,contact,email,location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +50,32 @@ public class DetailActivity extends AppCompatActivity {
 
         id = getIntent().getStringExtra("noteID");
 
+
         date = (TextView) findViewById(R.id.textView_detail_date);
         title = (TextView) findViewById(R.id.textView_detail_title);
         desc = (TextView) findViewById(R.id.textView_detail_description);
         contact = (TextView) findViewById(R.id.textView_detail_contact);
         email = (TextView) findViewById(R.id.textView_detail_email);
+        location = (TextView) findViewById(R.id.textView_detail_address);
+
 
 
         Database db = new Database(getApplicationContext());
         Note note = db.getSingleNoteDetailById(Integer.parseInt(id));
+
         date.setText(note.getCreated_at());
         title.setText(note.getTitle());
         desc.setText(note.getDescription());
         contact.setText(note.getContactNO());
         email.setText(note.getEmail());
+        location.setText(note.getLocation());
+
+        Settings settings = db.getSettings();
+        title.setTextSize(Float.parseFloat(String.valueOf(settings.getColorFont())));
+
+        View root = findViewById(R.id.card_view);
+        root.setBackgroundColor(Color.parseColor(String.valueOf("#" + settings.getColorHex())));
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -91,7 +108,7 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("title", note.getTitle());
                 intent.putExtra("description", note.getDescription());
                 intent.putExtra("number", note.getContactNO());
-                intent.putExtra("email", note.getEmail());
+                intent.putExtra("mail", note.getEmail());
                 startActivity(intent);
             } catch (Exception e){
                 Toast.makeText(DetailActivity.this, "Error", Toast.LENGTH_SHORT).show();

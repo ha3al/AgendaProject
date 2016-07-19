@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.location.Address;
+import android.location.Geocoder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,7 @@ import java.util.Locale;
 public class Database extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "AgendaDb";
+    public static final String DATABASE_NAME = "MyAgendaDb";
 
     public static final String TABLE_USER = "User";
     public static final String TABLE_NOTE = "Note";
@@ -40,12 +42,24 @@ public class Database extends SQLiteOpenHelper {
     public static final String CONTACT_NO = "contact_no";
     public static final String NOTE_EMAIL = "note_email";
     public static final String CREATED_AT = "created_at";
-    public static final String X_LOC = "x_loc";
-    public static final String Y_LOC = "y_loc";
+    public static final String LOCATION = "location";
+
+    public static final String TABLE_SETTING = "Setting";
 
 
+    // This columns for Setting Table
+    public static final String COLOR_ID = "color_id";
+    public static final String COLOR_HEX = "color_hex";
+    public static final String COLOR_FONT = "color_font";
+
+
+    Context context;
     public Database(Context context) {
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
+
+        //context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -58,8 +72,7 @@ public class Database extends SQLiteOpenHelper {
                 + CONTACT_NO + " TEXT, "
                 + NOTE_EMAIL + " TEXT, "
                 + CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
-                + X_LOC +" TEXT, "
-                + Y_LOC +" TEXT )";
+                + LOCATION + " TEXT )";
 
         String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + " ("
                 + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -69,6 +82,14 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_NOTE);
+
+        String CREATE_TABLE_SETTING = "CREATE TABLE " + TABLE_SETTING + " ( "
+                + COLOR_ID + " INTEGER, "
+                + COLOR_HEX + " TEXT, "
+                + COLOR_FONT + " INTEGER );";
+
+
+        db.execSQL(CREATE_TABLE_SETTING);
     }
 
     @Override
@@ -76,6 +97,35 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTE);
         onCreate(db);
+    }
+
+    public void defaultSetting(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO "+TABLE_SETTING+" VALUES (1, 'FFFF0000', 24);");
+    }
+
+    public Settings getSettings() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_SETTING + " WHERE " + COLOR_ID + " = " + 1;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Settings settings = new Settings(cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+
+        db.close();
+        cursor.close();
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLOR_HEX, settings.getColorHex());
+        values.put(COLOR_FONT, settings.getColorFont());
+
+        db.update(TABLE_SETTING, values, COLOR_ID + " = ?", new String[]{String.valueOf(1)});
+        db.close();
     }
 
     private String formatDateTime(String sa) {
@@ -91,7 +141,41 @@ public class Database extends SQLiteOpenHelper {
         return "time!";
     }
 
+    GPSTracker gps; //++
 
+    //++++
+    public String konumuAl(){
+        //// This is for gps
+        gps = new GPSTracker(context);
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            // \n is for new line
+            String cityName=null;
+            Geocoder gcd = new Geocoder(context, Locale.getDefault());
+            List<Address> addresses;
+            try {
+                addresses = gcd.getFromLocation(latitude, longitude, 1);
+                if (addresses.size() > 0)
+                    cityName = addresses.get(0).getThoroughfare()+"-"+addresses.get(0).getAdminArea()+"-"+addresses.get(0).getCountryName();
+                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
+                return cityName; // bize anlık konumu verecek
+
+            }catch (Exception e){
+                return ""; // Hata olursa konumu boş eklesin
+            }
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+
+            return ""; // Hata olursa konumu boş eklesin
+        }
+    }
     /**
      * Bu kısım Note classı için
      */
@@ -105,8 +189,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(DESCRIPTION, note.getDescription());
         values.put(CONTACT_NO, note.getContactNO());
         values.put(NOTE_EMAIL, note.getEmail());
-        values.put(X_LOC,note.getxLoc());
-        values.put(Y_LOC,note.getyLoc());
+        values.put(LOCATION, konumuAl());
 
         db.insert(TABLE_NOTE, null, values);
         db.close();
@@ -128,8 +211,8 @@ public class Database extends SQLiteOpenHelper {
         values.put(DESCRIPTION, note.getDescription());
         values.put(CONTACT_NO, note.getContactNO());
         values.put(NOTE_EMAIL, note.getEmail());
-        values.put(X_LOC,note.getxLoc());
-        values.put(Y_LOC,note.getyLoc());
+        values.put(LOCATION, konumuAl());
+
 
         db.update(TABLE_NOTE, values, NOTE_ID + " = ?", new String[]{String.valueOf(note.getNoteID())});
         db.close();
@@ -144,7 +227,7 @@ public class Database extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Note note = new Note(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),formatDateTime(cursor.getString(5)),cursor.getString(6),cursor.getString(7));
+        Note note = new Note(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),formatDateTime(cursor.getString(5)),cursor.getString(6));
 
         db.close();
         cursor.close();
@@ -165,8 +248,7 @@ public class Database extends SQLiteOpenHelper {
                 note.setContactNO(cursor.getString(3));
                 note.setEmail(cursor.getString(4));
                 note.setCreated_at(formatDateTime(cursor.getString(5)));
-                note.setxLoc(cursor.getString(6));
-                note.setyLoc(cursor.getString(7));
+                note.setLocation(cursor.getString(6));
                 noteList.add(note);
 
             } while (cursor.moveToNext());

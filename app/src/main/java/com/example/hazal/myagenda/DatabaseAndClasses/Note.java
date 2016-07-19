@@ -10,32 +10,36 @@ public class Note {
     String description;
     String contactNO;
     String email;
-    String created_at; // zaman için
-    String xLoc;
-    String yLoc;
+    String created_at;// zaman için
+    String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public Note() {
     }
 
     // Cons without id
-    public Note(String title, String description, String contactNO, String email, String xLoc, String yLoc) {
+    public Note(String title, String description, String contactNO, String email) {
         this.title = title;
         this.description = description;
         this.contactNO = contactNO;
         this.email = email;
-        this.xLoc = xLoc;
-        this.yLoc = yLoc;
     }
 
-    public Note(int noteID, String title, String description, String contactNO, String email, String created_at, String xLoc, String yLoc) {
+    public Note(int noteID, String title, String description, String contactNO, String email, String created_at, String location) {
         this.noteID = noteID;
         this.title = title;
         this.description = description;
         this.contactNO = contactNO;
         this.email = email;
         this.created_at = created_at;
-        this.xLoc = xLoc;
-        this.yLoc = yLoc;
+        this.location = location;
     }
 
 
@@ -86,11 +90,4 @@ public class Note {
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
-    public String getxLoc() {return xLoc;}
-
-    public void setxLoc(String xLoc) {this.xLoc = xLoc;}
-
-    public String getyLoc() {return yLoc;}
-
-    public void setyLoc(String yLoc) {this.yLoc = yLoc;}
 }

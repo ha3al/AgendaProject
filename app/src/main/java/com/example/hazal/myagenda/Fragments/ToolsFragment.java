@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.hazal.myagenda.Activities.DetailActivity;
 import com.example.hazal.myagenda.Activities.MainActivity;
 import com.example.hazal.myagenda.DatabaseAndClasses.CustomListAdapter;
+import com.example.hazal.myagenda.DatabaseAndClasses.Database;
+import com.example.hazal.myagenda.DatabaseAndClasses.Settings;
 import com.example.hazal.myagenda.R;
 
 import java.util.Arrays;
@@ -54,9 +56,12 @@ public class ToolsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                final Database db = new Database(getContext()); /// ++++
+                final Settings _settings = db.getSettings(); /// this will bring the current settings
+
                 switch(i){
                     case 0:
-                        final CharSequence colors[] = new CharSequence[]  {"red", "green", "blue"};
+                        final CharSequence colors[] = new CharSequence[]  {"orange", "green", "blue"};
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Pick a color");
@@ -66,19 +71,39 @@ public class ToolsFragment extends Fragment {
                                 // the user clicked on colors[which]
                                 if(which == 0){
                                     dialog.dismiss();
-                                   // cardView.setCardBackgroundColor(Color.RED);
+                                    // this is for red and reds color hex #FFFF0000
+                                    Settings settings = new Settings();
+                                    settings.setColorHex("FFFFA500");
+                                    settings.setColorFont(_settings.getColorFont());
+                                    db.setSettings(settings);
+
                                     Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
                                 }
 
-                                else if(which == 1){
+                                if(which == 1){
                                     dialog.dismiss();
+                                    // this is for green and greens color hex #FF00FF00
+                                    Settings settings = new Settings();
+                                    settings.setColorHex("FF2E8B57");
+                                    settings.setColorFont(_settings.getColorFont());
+                                    db.setSettings(settings);
+
                                     Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
                                 }
 
-                                else{
+                                if (which ==2){
                                     dialog.dismiss();
+                                    // this is for blue and blues color hex #FF0000FF
+                                    Settings settings = new Settings();
+                                    settings.setColorHex("FF00CED1");
+                                    settings.setColorFont(_settings.getColorFont());
+                                    db.setSettings(settings);
+
                                     Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
                                 }
+
+                                Intent intent = new Intent(getContext(),MainActivity.class);
+                                startActivity(intent);
                             }
                         });
                         builder.show();
@@ -92,6 +117,42 @@ public class ToolsFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // the user clicked on colors[which]
+
+                                if (which == 0){
+                                    dialog.dismiss();
+                                    // this is for small size and smalls font size 16
+                                    Settings settings = new Settings();
+                                    settings.setColorFont(16);
+                                    settings.setColorHex(_settings.getColorHex());
+                                    db.setSettings(settings);
+
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                if (which == 1){
+                                    dialog.dismiss();
+                                    // this is for medium size and mediums font size 20
+                                    Settings settings = new Settings();
+                                    settings.setColorFont(20);
+                                    settings.setColorHex(_settings.getColorHex());
+                                    db.setSettings(settings);
+
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                if (which == 2){
+                                    dialog.dismiss();
+                                    // this is for large size and larges font size 22
+                                    Settings settings = new Settings();
+                                    settings.setColorFont(22);
+                                    settings.setColorHex(_settings.getColorHex());
+                                    db.setSettings(settings);
+
+                                    Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                Intent intent = new Intent(getContext(),MainActivity.class);
+                                startActivity(intent);
 
                             }
                         });

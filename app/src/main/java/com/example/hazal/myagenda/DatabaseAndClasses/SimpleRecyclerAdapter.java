@@ -1,6 +1,7 @@
 package com.example.hazal.myagenda.DatabaseAndClasses;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,14 +49,6 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
         holder.item_date.setText(note.getCreated_at());
         holder.item_img.setImageResource(R.drawable.note);
 
-        /**
-         *  Bu kısım en önemli kısım
-         *  Veriler Bind yaniyüklenirken
-         *  alıp verileri bir note classına atıyoruz
-         *  MVC yapısının güzelliği de sonra bu verileri
-         *  Holder classında oluşturduğumuz note classına yapıştırıyoruz
-         *  Bu sayede gelen veriler anlık holder a da geçmiş oluyoz :)
-         * */
 
         /** ############################################################### */
 
@@ -63,11 +56,6 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
 
         /** ############################################################### */
 
-        /*holder.item_title.setText(list_item.get(position).getTitle());
-        holder.item_description.setText(list_item.get(position).getDescription());
-        holder.item_date.setText(list_item.get(position).getCreated_at());
-        holder.item_img.setImageResource(R.drawable.note);
-        *///holder.item_img.setImageResource(list_item_note.get(position).getPhoto_id());
 
     }
 
@@ -107,6 +95,18 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
             item_description = (TextView) view.findViewById(R.id.item_desc);
             item_date = (TextView) view.findViewById(R.id.item_date);
             item_img = (ImageView) view.findViewById(R.id.item_img);
+
+            Database db = new Database(view.getContext());
+            Settings settings = db.getSettings();
+
+            if (!String.valueOf(settings.getColorHex()).equalsIgnoreCase("")){
+                card_view.setCardBackgroundColor(Color.parseColor(String.valueOf("#"+settings.getColorHex())));
+            }
+
+            if (!String.valueOf(settings.getColorFont()).equalsIgnoreCase("")) {
+                item_title.setTextSize(Float.parseFloat(String.valueOf(settings.getColorFont())));
+                item_description.setTextSize(Float.parseFloat(String.valueOf(settings.getColorFont())));
+            }
 
 
             view.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@ package com.example.hazal.myagenda.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +68,6 @@ public class CardViewFragment extends Fragment {
                 return false;
             }
         });
-
 
         return view;
     }

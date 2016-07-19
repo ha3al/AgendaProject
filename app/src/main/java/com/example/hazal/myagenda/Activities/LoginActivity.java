@@ -24,10 +24,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // This is for default Settings
+
+        Database database = new Database(getApplicationContext());
+        database.defaultSetting();
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String Session = preferences.getString("session","N/A");
+        String address = preferences.getString("address","N/A");
         if (Session.equals(String.valueOf("YES"))){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("email",String.valueOf(address));
+            startActivity(intent);
         }
 
         username = (EditText) findViewById(R.id.username_login);
@@ -55,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("session","YES");
+                        editor.putString("address",user.getEmail());
                         editor.commit();
 
                         Toast.makeText(LoginActivity.this, "Logged in successfully!!", Toast.LENGTH_SHORT).show();

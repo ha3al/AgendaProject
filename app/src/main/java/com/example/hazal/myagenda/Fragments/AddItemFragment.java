@@ -35,10 +35,6 @@ public class AddItemFragment extends Fragment {
     TextView back;
     EditText title, description,number,mail;
     Button add;
-    String x,y;
-
-    private LocationManager locationManager;
-    private LocationListener listener;
 
 
     public AddItemFragment() {
@@ -68,33 +64,6 @@ public class AddItemFragment extends Fragment {
             }
         });
 
-        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        listener  = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                x = String.valueOf(location.getLongitude());
-                y = String.valueOf(location.getLatitude());
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-
-        configure();
-
-
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,12 +74,9 @@ public class AddItemFragment extends Fragment {
                     note.setDescription(description.getText().toString());
                     note.setContactNO(number.getText().toString());
                     note.setEmail(mail.getText().toString());
-                    note.setxLoc(x);
-                    note.setyLoc(y);
                     database.addNote(note);
 
                     Toast.makeText(getContext(), "İşlem başarıyla tamamlandı!", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getContext(), x+" "+y, Toast.LENGTH_SHORT).show();
                     ReturnMainFragment();
 
                 } catch (Exception e) {
@@ -120,23 +86,6 @@ public class AddItemFragment extends Fragment {
         });
 
         return view;
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 10:
-                configure();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void configure() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestSingleUpdate("gps",listener, Looper.myLooper());
     }
 
     public void ReturnMainFragment(){
