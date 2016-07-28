@@ -39,5 +39,5 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         imageView.setImageResource(imgid[position]);
         return rowView;
 
-    };
+    }
 }

@@ -101,7 +101,7 @@ public class Database extends SQLiteOpenHelper {
 
     public void defaultSetting(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO "+TABLE_SETTING+" VALUES (1, 'FFFF0000', 24);");
+        db.execSQL("INSERT INTO "+TABLE_SETTING+" VALUES (1, 'FFFFA500', 18);");
     }
 
     public Settings getSettings() {
@@ -133,7 +133,12 @@ public class Database extends SQLiteOpenHelper {
         try {
             String dt = sdf.parse(sa).toString(); //replace 4 with the column index
             /// this will return Sunday 12:13
-            return dt.split(" ")[0] + " " + dt.split(" ")[3].split(":")[0] + ":" + dt.split(" ")[3].split(":")[1];
+
+            String day= String.valueOf(dt.split(" ")[0]);
+            String hour = String.valueOf(Integer.parseInt(dt.split(" ")[3].split(":")[0]) +3);
+            String minute = String.valueOf(dt.split(" ")[3].split(":")[1]);
+
+            return day + " " + hour + ":" + minute;
 
         } catch (ParseException e) {
             e.printStackTrace();
